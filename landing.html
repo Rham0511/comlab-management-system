@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComLab - Computer Laboratory Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0f1e;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Glass card */
+        .glass-card {
+            background: rgba(26, 31, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(52, 211, 153, 0.5);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Hero pattern */
+        .hero-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.1), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(6, 95, 70, 0.08), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.05), transparent 50%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-[rgba(10,15,30,0.9)] backdrop-blur-xl border-b border-emerald-500/10">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 flex items-center justify-center border border-emerald-500/30">
+                        <i class="fas fa-desktop text-emerald-400 text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">ComLab</h1>
+                        <p class="text-xs text-emerald-400 uppercase tracking-wider">MSU - CCS</p>
+                    </div>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="text-slate-300 hover:text-emerald-400 transition-colors font-medium">Features</a>
+                    <a href="#about" class="text-slate-300 hover:text-emerald-400 transition-colors font-medium">About</a>
+                    <a href="#contact" class="text-slate-300 hover:text-emerald-400 transition-colors font-medium">Contact</a>
+                    <a href="/login" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-bold hover:from-emerald-600 hover:to-emerald-700 transition-all">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern min-h-screen flex items-center justify-center pt-20 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="fade-in-up">
+                <!-- Icon -->
+                <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 border-2 border-emerald-500/30 mb-8 float-animation">
+                    <i class="fas fa-laptop-code text-5xl text-emerald-400"></i>
+                </div>
+
+                <!-- Heading -->
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                    <span class="text-white">Computer Laboratory</span><br>
+                    <span class="gradient-text">Management System</span>
+                </h1>
+
+                <!-- Description -->
+                <p class="text-xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+                    Streamline your laboratory operations with our comprehensive management platform. 
+                    Track attendance, manage equipment, and monitor facility usage all in one place.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="/register" class="px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-bold text-lg hover:from-emerald-600 hover:to-emerald-700 transition-all hover:scale-105 flex items-center gap-3 shadow-lg shadow-emerald-500/30">
+                        <i class="fas fa-user-plus"></i>
+                        Get Started
+                    </a>
+                    <a href="#features" class="px-8 py-4 bg-slate-800/50 border-2 border-emerald-500/30 text-white rounded-xl font-bold text-lg hover:bg-slate-700/50 hover:border-emerald-500/50 transition-all flex items-center gap-3">
+                        <i class="fas fa-rocket"></i>
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 px-6 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-4">
+                    <span class="gradient-text">Powerful Features</span>
+                </h2>
+                <p class="text-xl text-slate-400">Everything you need to manage your laboratory efficiently</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 flex items-center justify-center mb-6 border border-emerald-500/30">
+                        <i class="fas fa-qrcode text-3xl text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">QR Attendance</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Quick and contactless attendance tracking using QR codes. Students can check in/out instantly.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 flex items-center justify-center mb-6 border border-emerald-500/30">
+                        <i class="fas fa-box text-3xl text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Equipment Management</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Track equipment inventory, borrowing, and maintenance requests in real-time.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 flex items-center justify-center mb-6 border border-emerald-500/30">
+                        <i class="fas fa-chart-line text-3xl text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Analytics Dashboard</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Comprehensive reports and insights on laboratory usage and student activity.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 flex items-center justify-center mb-6 border border-emerald-500/30">
+                        <i class="fas fa-calendar-alt text-3xl text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Schedule Management</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Organize lab schedules, class sessions, and equipment reservations effortlessly.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 flex items-center justify-center mb-6 border border-emerald-500/30">
+                        <i class="fas fa-shield-alt text-3xl text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Secure Access</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Role-based access control ensures data security across all user levels.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 flex items-center justify-center mb-6 border border-emerald-500/30">
+                        <i class="fas fa-mobile-alt text-3xl text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Mobile Responsive</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Access the system from any device - desktop, tablet, or smartphone.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                        About <span class="gradient-text">ComLab</span>
+                    </h2>
+                    <p class="text-lg text-slate-300 leading-relaxed mb-6">
+                        ComLab is a comprehensive laboratory management system developed for Mindoro State University's College of Computer Studies. 
+                        Our platform streamlines daily operations and provides valuable insights for administrators, technicians, and students.
+                    </p>
+                    <p class="text-lg text-slate-300 leading-relaxed">
+                        Built with modern web technologies, ComLab offers a seamless experience across all devices and ensures data security 
+                        with role-based access control.
+                    </p>
+                </div>
+                <div class="glass-card rounded-2xl p-8">
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-2xl text-emerald-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-lg mb-2">Real-time Tracking</h4>
+                                <p class="text-slate-400">Monitor attendance and equipment usage in real-time</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-2xl text-emerald-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-lg mb-2">Multi-Campus Support</h4>
+                                <p class="text-slate-400">Manage multiple campus locations from one platform</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-check-circle text-2xl text-emerald-400 mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-lg mb-2">Automated Reports</h4>
+                                <p class="text-slate-400">Generate comprehensive reports automatically</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 bg-slate-950/50">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-6">
+                <span class="gradient-text">Get Started Today</span>
+            </h2>
+            <p class="text-xl text-slate-300 mb-12">
+                Join hundreds of students and faculty already using ComLab to streamline their laboratory management.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="/register" class="px-10 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-bold text-lg hover:from-emerald-600 hover:to-emerald-700 transition-all hover:scale-105 flex items-center gap-3 shadow-lg shadow-emerald-500/30">
+                    <i class="fas fa-rocket"></i>
+                    Create Account
+                </a>
+                <a href="/login" class="px-10 py-4 bg-slate-800/50 border-2 border-emerald-500/30 text-white rounded-xl font-bold text-lg hover:bg-slate-700/50 hover:border-emerald-500/50 transition-all flex items-center gap-3">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-emerald-500/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center">
+                <p class="text-slate-400 mb-2">© 2026 Mindoro State University - College of Computer Studies</p>
+                <p class="text-slate-500 text-sm">Computer Laboratory Facilities Management System</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

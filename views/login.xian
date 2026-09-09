@@ -1,0 +1,328 @@
+{{> head}}
+<body class="min-h-screen relative overflow-auto bg-[#0a0f1e] text-slate-100">
+  <style>
+    html, body {
+      height: 100%;
+      overflow: auto;
+    }
+
+    .login-bg {
+      background-image: url('/images/minsu-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+    }
+
+    /* Landscape optimization */
+    @media (max-height: 700px) and (orientation: landscape) {
+      .login-bg {
+        padding: 1rem;
+        align-items: flex-start;
+      }
+      
+      header {
+        padding: 0.75rem 1.5rem !important;
+      }
+      
+      header img {
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+      }
+      
+      header .text-lg {
+        font-size: 0.875rem !important;
+      }
+      
+      .login-card {
+        padding: 1.25rem !important;
+        max-height: calc(100vh - 6rem);
+        overflow-y: auto;
+        margin-top: 4.5rem;
+      }
+      
+      .logo-badge {
+        height: 3rem !important;
+        width: 3rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      
+      h1 {
+        font-size: 1.25rem !important;
+        margin-bottom: 0.25rem !important;
+      }
+      
+      .login-bg p {
+        font-size: 0.75rem !important;
+        margin-top: 0.5rem !important;
+      }
+      
+      .space-y-5 > * + * {
+        margin-top: 0.75rem !important;
+      }
+      
+      input {
+        padding: 0.625rem 0.875rem !important;
+        font-size: 0.875rem !important;
+      }
+      
+      button[type="submit"] {
+        padding: 0.625rem 1.25rem !important;
+        font-size: 0.875rem !important;
+      }
+      
+      .mt-6 {
+        margin-top: 1rem !important;
+      }
+    }
+
+    /* Enhanced Glassmorphism */
+    .login-card {
+      background: rgba(26, 31, 46, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 2px solid rgba(52, 211, 153, 0.25);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 40px rgba(52, 211, 153, 0.15);
+      border-radius: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .logo-badge {
+      transition: transform 0.3s ease;
+    }
+
+    .logo-badge:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    /* Input enhancements */
+    input {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    input:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(2, 40, 20, 0.75);
+    }
+
+    input:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Button enhancement */
+    button[type="submit"] {
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+    }
+
+    button[type="submit"]::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    button[type="submit"]:hover::before {
+      opacity: 1;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(16, 185, 129, 0.45);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-card {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    /* Custom scrollbar */
+    .login-card::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .login-card::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 10px;
+    }
+
+    .login-card::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.7), rgba(5, 150, 105, 0.8));
+      border-radius: 10px;
+    }
+
+    .login-card::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 1));
+    }
+  </style>
+
+  <header class="fixed left-0 top-0 z-50 w-full border-b border-white/5 bg-slate-950/40 px-8 py-4 backdrop-blur-md">
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img src="/images/minsu-logo.png.jpg" alt="Mindoro State University Logo" class="h-14 w-14 rounded-xl border border-white/10 bg-white/5 object-contain p-1" />
+        <div class="flex flex-col leading-tight">
+          <span class="text-lg font-bold text-white">Mindoro State University</span>
+          <span class="text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-400">College of Computer Studies</span>
+        </div>
+      </div>
+
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Main navigation">
+        <a href="/" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">Home</a>
+        <a href="/#features" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">Features</a>
+        <a href="/#about" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">About</a>
+        <a href="/#contact" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="login-bg relative flex min-h-screen items-center justify-center pt-24">
+    <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(6,20,14,0.90),rgba(10,29,21,0.82))]"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.16),transparent_22%),radial-gradient(circle_at_bottom_right,rgba(34,197,94,0.10),transparent_24%)]"></div>
+
+    <div class="relative z-10 w-full max-w-md px-4">
+      <div class="login-card p-8">
+        <!-- Logo -->
+        <div class="mb-6 flex justify-center">
+          <div class="logo-badge relative">
+            <div class="absolute inset-0 rounded-2xl bg-emerald-400/20 blur-xl"></div>
+            <img src="/images/ccs-logo.png" alt="CCS Logo" class="relative h-20 w-20 object-contain drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]" />
+          </div>
+        </div>
+
+        <!-- Header -->
+        <div class="mb-8 text-center">
+          <h1 class="mb-2 text-3xl font-extrabold text-white tracking-tight">Welcome to ComLab</h1>
+          <p class="text-base text-slate-300 leading-relaxed">Sign in to access your dashboard and manage your laboratory workspace</p>
+        </div>
+
+        <!-- Alert Messages -->
+        {{#if error_msg}}
+          <div class="mb-6 rounded-xl border-l-4 border-red-400 bg-gradient-to-r from-red-500/15 to-red-500/5 px-5 py-4 text-sm text-red-200 shadow-lg backdrop-blur-sm flex items-start gap-3">
+            <i class="fas fa-exclamation-circle text-red-400 text-lg mt-0.5"></i>
+            <span>{{error_msg}}</span>
+          </div>
+        {{/if}}
+        {{#if success_msg}}
+          <div class="mb-6 rounded-xl border-l-4 border-emerald-400 bg-gradient-to-r from-emerald-500/15 to-emerald-500/5 px-5 py-4 text-sm text-emerald-200 shadow-lg backdrop-blur-sm flex items-start gap-3">
+            <i class="fas fa-check-circle text-emerald-400 text-lg mt-0.5"></i>
+            <span>{{success_msg}}</span>
+          </div>
+        {{/if}}
+
+        <!-- Login Form -->
+        <form class="space-y-5" autocomplete="off" method="POST" action="/login">
+          <!-- Email Field -->
+          <div>
+            <label class="mb-2.5 block text-sm font-bold text-slate-100 flex items-center gap-2" for="email">
+              <i class="fas fa-envelope text-emerald-400"></i>
+              Email Address
+            </label>
+            <input 
+              id="email" 
+              autocomplete="off" 
+              type="email" 
+              name="email" 
+              placeholder="your.email@university.edu" 
+              class="w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 shadow-inner transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" 
+              required 
+            />
+          </div>
+
+          <!-- Password Field -->
+          <div>
+            <label class="mb-2.5 block text-sm font-bold text-slate-100 flex items-center gap-2" for="password">
+              <i class="fas fa-lock text-emerald-400"></i>
+              Password
+            </label>
+            <div class="relative">
+              <input 
+                id="password" 
+                autocomplete="off" 
+                type="password" 
+                name="password" 
+                placeholder="Enter your password" 
+                class="w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 pr-12 text-white placeholder-slate-500 shadow-inner transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" 
+                required 
+              />
+              <button 
+                type="button" 
+                onclick="togglePassword()" 
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-400 hover:text-emerald-300 transition-colors"
+              >
+                <i class="fas fa-eye" id="toggleIcon"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="submit" 
+            class="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-4 text-base font-bold text-white transition-all hover:from-emerald-600 hover:to-emerald-700 flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Sign In</span>
+          </button>
+        </form>
+
+        <!-- Links -->
+        <div class="mt-6 space-y-3 text-center text-sm border-t border-slate-700/50 pt-6">
+          <p>
+            <a href="/forgot-password" class="font-bold text-emerald-400 hover:text-emerald-300 transition-colors inline-flex items-center justify-center gap-2">
+              <i class="fas fa-key text-xs"></i>
+              Forgot your password?
+            </a>
+          </p>
+          <p class="text-slate-300">
+            Don't have an account? 
+            <a href="/register" class="font-bold text-emerald-400 hover:text-emerald-300 transition-colors ml-1">Register now</a>
+          </p>
+          <p>
+            <a href="/" class="font-semibold text-slate-400 hover:text-emerald-300 transition-colors inline-flex items-center justify-center gap-2">
+              <i class="fas fa-arrow-left text-xs"></i>
+              Back to home
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const input = document.getElementById('password');
+      const icon = document.getElementById('toggleIcon');
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+  </script>
+{{> footer }}

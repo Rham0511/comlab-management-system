@@ -1,0 +1,378 @@
+{{> head}}
+<body class="min-h-screen relative overflow-hidden bg-[#0a0f1e] text-slate-100">
+  <style>
+    .register-bg {
+      background-image: url('/images/minsu-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .register-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(6, 20, 14, 0.92), rgba(10, 29, 21, 0.88));
+      z-index: 1;
+    }
+
+    .register-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 10%, rgba(16, 185, 129, 0.12), transparent 40%),
+        radial-gradient(circle at 80% 90%, rgba(6, 95, 70, 0.10), transparent 40%);
+      z-index: 2;
+    }
+
+    /* Enhanced scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 10px;
+      margin: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.7), rgba(5, 150, 105, 0.8));
+      border-radius: 10px;
+      border: 2px solid rgba(15, 23, 42, 0.4);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 1));
+    }
+
+    /* Enhanced input fields */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    input[type="text"]:hover,
+    input[type="email"]:hover,
+    input[type="password"]:hover,
+    select:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(2, 40, 20, 0.75);
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Field groups */
+    .field-group {
+      animation: slideUp 0.5s ease-out backwards;
+    }
+
+    .field-group:nth-child(1) { animation-delay: 0.1s; }
+    .field-group:nth-child(2) { animation-delay: 0.15s; }
+    .field-group:nth-child(3) { animation-delay: 0.2s; }
+    .field-group:nth-child(4) { animation-delay: 0.25s; }
+    .field-group:nth-child(5) { animation-delay: 0.3s; }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Enhanced button */
+    #registerButton {
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35), 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #registerButton::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #registerButton:hover::before {
+      opacity: 1;
+    }
+
+    #registerButton:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.45), 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    #registerButton:active {
+      transform: translateY(0);
+    }
+
+    /* Logo animation */
+    .logo-container {
+      animation: fadeInScale 0.6s ease-out;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+
+  <header class="fixed left-0 top-0 z-50 w-full border-b border-white/5 bg-slate-950/40 px-8 py-4 backdrop-blur-md">
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img src="/images/minsu-logo.png.jpg" alt="Mindoro State University Logo" class="h-14 w-14 rounded-xl border border-white/10 bg-white/5 object-contain p-1" />
+        <div class="flex flex-col leading-tight">
+          <span class="text-lg font-bold text-white">Mindoro State University</span>
+          <span class="text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-400">College of Computer Studies</span>
+        </div>
+      </div>
+
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Main navigation">
+        <a href="/" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">Home</a>
+        <a href="/#features" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">Features</a>
+        <a href="/#about" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">About</a>
+        <a href="/#contact" class="text-base font-semibold text-slate-200 transition hover:text-emerald-400">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="register-bg relative flex min-h-screen items-center justify-center pt-28 pb-16">
+    <div class="relative z-10 w-full max-w-2xl px-4">
+      <div class="max-h-[calc(100vh-160px)] overflow-hidden rounded-3xl border-2 border-emerald-400/30 bg-[rgba(26,31,46,0.90)] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_40px_rgba(16,185,129,0.2)] backdrop-blur-2xl">
+        <div class="custom-scrollbar h-full max-h-[calc(100vh-220px)] overflow-y-auto pr-3">
+          
+          <!-- Logo & Header -->
+          <div class="mb-8 text-center">
+            <div class="logo-container mb-6 flex justify-center">
+              <div class="relative">
+                <div class="absolute inset-0 rounded-2xl bg-emerald-400/20 blur-xl"></div>
+                <img src="/images/ccs-logo.png" alt="CCS Logo" class="relative h-20 w-20 object-contain drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]" />
+              </div>
+            </div>
+
+            <h1 class="text-3xl font-extrabold text-white mb-3 tracking-tight">Create Your Account</h1>
+            <p class="text-base text-slate-300 leading-relaxed max-w-md mx-auto">Join ComLab to access laboratory management features and resources</p>
+          </div>
+
+          <!-- Alert Messages -->
+          {{#if error_msg}}
+            <div class="mb-6 rounded-xl border-l-4 border-red-400 bg-gradient-to-r from-red-500/15 to-red-500/5 px-5 py-4 text-sm text-red-200 shadow-lg backdrop-blur-sm flex items-start gap-3">
+              <i class="fas fa-exclamation-circle text-red-400 text-lg mt-0.5"></i>
+              <span>{{error_msg}}</span>
+            </div>
+          {{/if}}
+          {{#if success_msg}}
+            <div class="mb-6 rounded-xl border-l-4 border-emerald-400 bg-gradient-to-r from-emerald-500/15 to-emerald-500/5 px-5 py-4 text-sm text-emerald-200 shadow-lg backdrop-blur-sm flex items-start gap-3">
+              <i class="fas fa-check-circle text-emerald-400 text-lg mt-0.5"></i>
+              <span>{{success_msg}}</span>
+            </div>
+          {{/if}}
+
+          <!-- Registration Form -->
+          <form class="space-y-5 pb-6" autocomplete="off" method="POST" action="/register">
+            
+            <!-- Personal Information Section -->
+            <div class="field-group">
+              <div class="mb-4 flex items-center gap-2">
+                <i class="fas fa-user-circle text-emerald-400 text-lg"></i>
+                <h3 class="text-sm font-bold text-emerald-100 uppercase tracking-wider">Personal Information</h3>
+              </div>
+              
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-id-card text-emerald-400 text-sm"></i>
+                    Full Name
+                  </span>
+                  <input autocomplete="off" type="text" name="name" placeholder="Juan Dela Cruz" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" required />
+                </label>
+                
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-user-tag text-emerald-400 text-sm"></i>
+                    Role
+                  </span>
+                  <select name="role" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20 cursor-pointer">
+                    <option value="admin">Administrator</option>
+                    <option value="technician">Technician</option>
+                    <option value="student">Student</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <!-- Account Information Section -->
+            <div class="field-group">
+              <div class="mb-4 flex items-center gap-2">
+                <i class="fas fa-envelope text-emerald-400 text-lg"></i>
+                <h3 class="text-sm font-bold text-emerald-100 uppercase tracking-wider">Account Credentials</h3>
+              </div>
+              
+              <label class="block text-sm font-bold text-slate-100 mb-4">
+                <span class="flex items-center gap-2 mb-2.5">
+                  <i class="fas fa-at text-emerald-400 text-sm"></i>
+                  Email Address
+                </span>
+                <input autocomplete="off" type="email" name="email" placeholder="your.email@university.edu" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" required />
+              </label>
+
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-lock text-emerald-400 text-sm"></i>
+                    Password
+                  </span>
+                  <input autocomplete="off" type="password" name="password" placeholder="Create strong password" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" required />
+                </label>
+                
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-check-circle text-emerald-400 text-sm"></i>
+                    Confirm Password
+                  </span>
+                  <input autocomplete="off" type="password" name="confirmPassword" placeholder="Re-enter password" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" required />
+                </label>
+              </div>
+            </div>
+
+            <!-- Campus & Student Information Section -->
+            <div class="field-group">
+              <div class="mb-4 flex items-center gap-2">
+                <i class="fas fa-building text-emerald-400 text-lg"></i>
+                <h3 class="text-sm font-bold text-emerald-100 uppercase tracking-wider">Campus & Student Details</h3>
+              </div>
+              
+              <label class="block text-sm font-bold text-slate-100 mb-4">
+                <span class="flex items-center gap-2 mb-2.5">
+                  <i class="fas fa-map-marker-alt text-emerald-400 text-sm"></i>
+                  Campus Location
+                </span>
+                <select name="campus" required class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20 cursor-pointer">
+                  <option value="" selected disabled>Choose your campus</option>
+                  <option value="Bongabong">Bongabong Campus</option>
+                  <option value="Victoria">Victoria Campus</option>
+                  <option value="Calapan">Calapan Campus</option>
+                </select>
+              </label>
+
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-id-badge text-emerald-400 text-sm"></i>
+                    Student Number
+                  </span>
+                  <input autocomplete="off" type="text" name="student_number" placeholder="e.g. 2023-0001" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" />
+                </label>
+                
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-graduation-cap text-emerald-400 text-sm"></i>
+                    Program
+                  </span>
+                  <input autocomplete="off" type="text" name="program" placeholder="e.g. BS Computer Science" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" />
+                </label>
+              </div>
+            </div>
+
+            <!-- Academic Details Section -->
+            <div class="field-group">
+              <div class="mb-4 flex items-center gap-2">
+                <i class="fas fa-book-open text-emerald-400 text-lg"></i>
+                <h3 class="text-sm font-bold text-emerald-100 uppercase tracking-wider">Academic Information</h3>
+              </div>
+              
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-calendar-alt text-emerald-400 text-sm"></i>
+                    Year Level
+                  </span>
+                  <input autocomplete="off" type="text" name="year" placeholder="e.g. 3rd Year" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" />
+                </label>
+                
+                <label class="block text-sm font-bold text-slate-100">
+                  <span class="flex items-center gap-2 mb-2.5">
+                    <i class="fas fa-users text-emerald-400 text-sm"></i>
+                    Section
+                  </span>
+                  <input autocomplete="off" type="text" name="section" placeholder="e.g. Section A" class="mt-1 w-full rounded-xl border-2 border-emerald-400/25 bg-[rgba(3,10,16,0.85)] px-4 py-3 text-white placeholder-slate-500 transition-all focus:border-emerald-400 focus:bg-[rgba(6,15,20,0.9)] focus:outline-none focus:ring-2 focus:ring-emerald-400/20" />
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-7 field-group">
+              <button id="registerButton" type="submit" class="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-6 py-4 text-base font-bold text-white transition-all hover:from-emerald-600 hover:to-emerald-700 flex items-center justify-center gap-2" aria-label="Create Account">
+                <i class="fas fa-user-plus"></i>
+                <span>Create Account</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Loading State -->
+          <div id="registerLoading" class="hidden mt-6 rounded-xl border-l-4 border-cyan-400 bg-gradient-to-r from-cyan-500/15 to-cyan-500/5 p-5 text-sm text-cyan-100 shadow-lg backdrop-blur-sm flex items-center gap-3">
+            <i class="fas fa-spinner fa-spin text-cyan-400 text-lg"></i>
+            <div>
+              <p class="font-bold mb-1">Creating your account...</p>
+              <p class="text-xs text-slate-400">Please wait while we set up your profile</p>
+            </div>
+          </div>
+
+          <!-- Footer Links -->
+          <div class="space-y-4 pb-2 pt-6 text-center text-sm border-t border-slate-700/50">
+            <p class="text-slate-300">
+              Already have an account? 
+              <a href="/login" class="font-bold text-emerald-400 hover:text-emerald-300 transition-colors ml-1">Sign in here</a>
+            </p>
+            <p>
+              <a href="/" class="font-semibold text-slate-400 hover:text-emerald-300 transition-colors inline-flex items-center gap-2">
+                <i class="fas fa-arrow-left text-xs"></i>
+                Back to landing page
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const form = document.querySelector('form[action="/register"]');
+    const button = document.getElementById('registerButton');
+    const loading = document.getElementById('registerLoading');
+
+    if (form) {
+      form.addEventListener('submit', () => {
+        if (button) {
+          button.disabled = true;
+          button.textContent = 'Creating account...';
+          button.classList.add('opacity-70', 'cursor-not-allowed');
+        }
+        if (loading) {
+          loading.classList.remove('hidden');
+        }
+      });
+    }
+  </script>
+{{> footer }}
