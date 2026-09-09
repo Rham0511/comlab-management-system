@@ -50,5 +50,4 @@ export const AuditLog = sequelize.define("AuditLog", {
   ]
 });
 
-await AuditLog.sync();
 export { sequelize };

@@ -40,6 +40,10 @@ export const sequelize = DATABASE_URL
   ? new Sequelize(DATABASE_URL, {
       dialect: DB_DIALECT || 'postgres',
       logging: false,
+      define: {
+        timestamps: true,
+        freezeTableName: true
+      },
       dialectOptions: {
         ssl: {
           rejectUnauthorized: false
@@ -51,6 +55,10 @@ export const sequelize = DATABASE_URL
       port: Number(DB_PORT) || (DB_DIALECT === 'postgres' ? 5432 : 3306),
       dialect: DB_DIALECT,
       logging: false,
+      define: {
+        timestamps: true,
+        freezeTableName: true
+      },
       dialectOptions: process.env.DB_SSL === 'true' ? {
         ssl: {
           rejectUnauthorized: false
