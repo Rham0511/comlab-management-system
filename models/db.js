@@ -38,22 +38,22 @@ const {
 
 export const sequelize = DATABASE_URL
   ? new Sequelize(DATABASE_URL, {
-      dialect: DB_DIALECT,
+      dialect: DB_DIALECT || 'postgres',
       logging: false,
       dialectOptions: {
         ssl: {
-          rejectUnauthorized: true
+          rejectUnauthorized: false
         }
       }
     })
   : new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
       host: DB_HOST,
-      port: Number(DB_PORT) || 3306,
+      port: Number(DB_PORT) || (DB_DIALECT === 'postgres' ? 5432 : 3306),
       dialect: DB_DIALECT,
       logging: false,
       dialectOptions: process.env.DB_SSL === 'true' ? {
         ssl: {
-          rejectUnauthorized: true
+          rejectUnauthorized: false
         }
       } : {}
     });
