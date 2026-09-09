@@ -31,7 +31,8 @@ import { User } from "../models/userModel.js";
 import { logAuditEntry } from "./auditController.js";
 import crypto from 'crypto';
 import { sendMail, sendOtpMail } from '../utils/mailer.js';
-await User.sync({ alter: true });
+// Sync disabled - table should already exist
+// await User.sync({ alter: true });
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 

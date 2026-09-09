@@ -193,9 +193,10 @@ function getCanonicalCampusName(campus) {
   return campusName ? `${campusName} Campus` : "";
 }
 
-await Equipment.sync();
-await EquipmentSequence.sync();
-await EquipmentCategory.sync();
+// Sync disabled - tables should already exist in production
+// await Equipment.sync();
+// await EquipmentSequence.sync();
+// await EquipmentCategory.sync();
 await seedDefaultCategories();
 
 const __filename = fileURLToPath(import.meta.url);

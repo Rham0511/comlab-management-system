@@ -138,8 +138,11 @@ if (!process.env.ELECTRON) {
         console.log("✅ Database connected");
 
         try {
-          await ensureClassListEntryTable();
-          await sequelize.sync({ force: false, alter: true, logging: false });
+          // Database schema should already exist - skip auto-sync in production
+          if (process.env.NODE_ENV !== 'production') {
+            await ensureClassListEntryTable();
+            await sequelize.sync({ force: false, alter: true, logging: false });
+          }
           console.log("✅ Database tables are ready");
         } catch (syncError) {
           console.warn("⚠️ Database schema sync skipped:", syncError.message);
