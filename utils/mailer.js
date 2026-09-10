@@ -37,14 +37,20 @@ const getTransportConfig = () => {
 const getTransport = () => {
   const { host, port, user, pass } = getTransportConfig();
   if (!host || !user || !pass) return null;
+  
   return nodemailer.createTransport({
     host,
     port,
     secure: port === 465,
     auth: { user, pass },
-    family: 4, // Force IPv4
-    connectionTimeout: 10000, // 10 seconds
-    greetingTimeout: 5000
+    tls: {
+      rejectUnauthorized: true,
+      minVersion: 'TLSv1.2'
+    },
+    dnsTimeout: 5000,
+    connectionTimeout: 15000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000
   });
 };
 
