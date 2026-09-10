@@ -69,25 +69,32 @@ export const sendMail = async ({ to, subject, html, text }) => {
   
   if (resendApiKey) {
     console.log('[mailer] Using Resend API');
+    console.log(`[mailer] Resend API key: ${resendApiKey.substring(0, 10)}...`);
     const resend = new Resend(resendApiKey);
     
-    const from = envFallback(['MAIL_FROM', 'SMTP_USER']) || 'noreply@example.com';
+    const from = envFallback(['MAIL_FROM', 'SMTP_USER']) || 'onboarding@resend.dev';
     const fromName = envFallback(['MAIL_FROM_NAME']) || 'ComLab';
-    const formattedFrom = `${fromName} <${from}>`;
+    
+    // Resend requires 'Name <email@domain.com>' format OR just 'email@domain.com'
+    // For onboarding@resend.dev, just use the email directly
+    const formattedFrom = from === 'onboarding@resend.dev' ? from : `${fromName} <${from}>`;
+    
+    console.log(`[mailer] Sending from: ${formattedFrom} to: ${to}`);
     
     try {
       const result = await resend.emails.send({
         from: formattedFrom,
-        to,
+        to: [to], // Resend expects array
         subject,
         html,
-        text
+        ...(text && { text }) // Only include text if provided
       });
       console.log('[mailer] Email sent successfully via Resend');
-      console.log(`[mailer] Message ID: ${result.data?.id || 'unknown'}`);
+      console.log(`[mailer] Resend result:`, JSON.stringify(result));
       return result;
     } catch (error) {
       console.error('[mailer] Resend email failed:', error?.message || error);
+      console.error('[mailer] Resend error details:', JSON.stringify(error));
       throw error;
     }
   }
