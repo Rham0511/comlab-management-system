@@ -28,7 +28,9 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "./db.js";
 
 export const User = sequelize.define("User", {
-  name: { type: DataTypes.STRING, allowNull: false },
+  idNumber: { type: DataTypes.STRING, allowNull: false, field: 'idNumber' },
+  firstName: { type: DataTypes.STRING, allowNull: false, field: 'firstName' },
+  lastName: { type: DataTypes.STRING, allowNull: false, field: 'lastName' },
   email: { type: DataTypes.STRING, allowNull: false },
   password: { type: DataTypes.STRING, allowNull: false },
   role: { type: DataTypes.STRING, allowNull: false, defaultValue: "admin" },
@@ -37,6 +39,7 @@ export const User = sequelize.define("User", {
   year: { type: DataTypes.STRING, allowNull: true },
   section: { type: DataTypes.STRING, allowNull: true },
   campus: { type: DataTypes.STRING, allowNull: true },
+  status: { type: DataTypes.STRING, allowNull: true, defaultValue: 'Active' },
   photo: { type: DataTypes.STRING, allowNull: true },
   last_login_at: { type: DataTypes.DATE, allowNull: true },
   /* Email verification fields. Default to true to avoid locking existing users during migration. */
