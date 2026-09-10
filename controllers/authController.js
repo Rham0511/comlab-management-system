@@ -460,6 +460,7 @@ export const resetPassword = async (req, res) => {
   const hashed = await bcrypt.hash(password, 8);
   await user.update({
     password: hashed,
+    email_verified: true, // ✅ Mark email as verified after successful password reset
     verification_token: null,
     verification_expires_at: null
   });
