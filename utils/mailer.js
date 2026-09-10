@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -63,6 +64,36 @@ export const sendMail = async ({ to, subject, html, text }) => {
   console.log('[mailer] Email attempting to send...');
   console.log(`[mailer] Recipient: ${to}`);
 
+  // Check if Resend API key is available (preferred)
+  const resendApiKey = process.env.RESEND_API_KEY?.trim();
+  
+  if (resendApiKey) {
+    console.log('[mailer] Using Resend API');
+    const resend = new Resend(resendApiKey);
+    
+    const from = envFallback(['MAIL_FROM', 'SMTP_USER']) || 'noreply@example.com';
+    const fromName = envFallback(['MAIL_FROM_NAME']) || 'ComLab';
+    const formattedFrom = `${fromName} <${from}>`;
+    
+    try {
+      const result = await resend.emails.send({
+        from: formattedFrom,
+        to,
+        subject,
+        html,
+        text
+      });
+      console.log('[mailer] Email sent successfully via Resend');
+      console.log(`[mailer] Message ID: ${result.data?.id || 'unknown'}`);
+      return result;
+    } catch (error) {
+      console.error('[mailer] Resend email failed:', error?.message || error);
+      throw error;
+    }
+  }
+
+  // Fallback to SMTP if no Resend API key
+  console.log('[mailer] Using SMTP (no RESEND_API_KEY found)');
   const config = getTransportConfig();
   console.log(`[mailer] SMTP config resolved: host=${config.host || 'missing'}, port=${config.port}, user=${maskValue(config.user)}, pass=${config.pass ? '***' : 'missing'}`);
 
