@@ -70,27 +70,30 @@ export const sendMail = async ({ to, subject, html, text }) => {
   
   if (brevoApiKey) {
     console.log('[mailer] Using Brevo API');
-    const apiInstance = new brevo.TransactionalEmailsApi();
-    apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, brevoApiKey);
     
     const from = envFallback(['MAIL_FROM', 'SMTP_USER']) || 'noreply@example.com';
     const fromName = envFallback(['MAIL_FROM_NAME']) || 'ComLab';
     
-    const sendSmtpEmail = new brevo.SendSmtpEmail();
-    sendSmtpEmail.sender = { name: fromName, email: from };
-    sendSmtpEmail.to = [{ email: to }];
-    sendSmtpEmail.subject = subject;
-    sendSmtpEmail.htmlContent = html;
+    const sendSmtpEmail = {
+      sender: { name: fromName, email: from },
+      to: [{ email: to }],
+      subject: subject,
+      htmlContent: html
+    };
+    
     if (text) sendSmtpEmail.textContent = text;
     
     try {
+      const apiInstance = new brevo.TransactionalEmailsApi();
+      apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, brevoApiKey);
+      
       const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
       console.log('[mailer] Email sent successfully via Brevo API');
       console.log(`[mailer] Brevo result:`, JSON.stringify(result));
       return result;
     } catch (error) {
       console.error('[mailer] Brevo API email failed:', error?.message || error);
-      console.error('[mailer] Brevo error details:', JSON.stringify(error));
+      console.error('[mailer] Brevo error details:', JSON.stringify(error?.response?.body || error));
       throw error;
     }
   }
