@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import { Resend } from 'resend';
-import * as brevo from '@getbrevo/brevo';
+import * as SibApiV3Sdk from '@getbrevo/brevo';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -74,26 +74,24 @@ export const sendMail = async ({ to, subject, html, text }) => {
     const from = envFallback(['MAIL_FROM', 'SMTP_USER']) || 'noreply@example.com';
     const fromName = envFallback(['MAIL_FROM_NAME']) || 'ComLab';
     
-    const sendSmtpEmail = {
-      sender: { name: fromName, email: from },
-      to: [{ email: to }],
-      subject: subject,
-      htmlContent: html
-    };
-    
-    if (text) sendSmtpEmail.textContent = text;
-    
     try {
-      const apiInstance = new brevo.TransactionalEmailsApi();
-      apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, brevoApiKey);
+      const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+      apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, brevoApiKey);
+      
+      const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+      sendSmtpEmail.sender = { name: fromName, email: from };
+      sendSmtpEmail.to = [{ email: to }];
+      sendSmtpEmail.subject = subject;
+      sendSmtpEmail.htmlContent = html;
+      if (text) sendSmtpEmail.textContent = text;
       
       const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
       console.log('[mailer] Email sent successfully via Brevo API');
-      console.log(`[mailer] Brevo result:`, JSON.stringify(result));
+      console.log(`[mailer] Brevo message ID:`, result?.response?.body?.messageId || 'unknown');
       return result;
     } catch (error) {
       console.error('[mailer] Brevo API email failed:', error?.message || error);
-      console.error('[mailer] Brevo error details:', JSON.stringify(error?.response?.body || error));
+      console.error('[mailer] Brevo error body:', error?.response?.body || error?.body || 'no details');
       throw error;
     }
   }
