@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { Resend } from 'resend';
+import * as SibApiV3Sdk from '@getbrevo/brevo';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -64,14 +65,18 @@ export const sendMail = async ({ to, subject, html, text }) => {
   console.log('[mailer] Email attempting to send...');
   console.log(`[mailer] Recipient: ${to}`);
 
-  // Priority 1: Check Brevo API key
+  // FORCE BREVO ONLY - Priority 1: Check Brevo API key
   const brevoApiKey = process.env.BREVO_API_KEY?.trim();
   
   if (brevoApiKey) {
     console.log('[mailer] Using Brevo API (direct HTTP)');
+    console.log('[mailer] Brevo API Key detected:', brevoApiKey.substring(0, 15) + '...');
     
     const from = envFallback(['MAIL_FROM', 'SMTP_USER']) || 'noreply@example.com';
     const fromName = envFallback(['MAIL_FROM_NAME']) || 'ComLab';
+    
+    console.log(`[mailer] Sender email: ${from}`);
+    console.log(`[mailer] Sender name: ${fromName}`);
     
     const payload = {
       sender: { name: fromName, email: from },
@@ -96,20 +101,24 @@ export const sendMail = async ({ to, subject, html, text }) => {
       const result = await response.json();
       
       if (!response.ok) {
+        console.error('[mailer] Brevo API response error:', JSON.stringify(result));
         throw new Error(`Brevo API error: ${result.message || response.statusText}`);
       }
       
-      console.log('[mailer] Email sent successfully via Brevo API');
+      console.log('[mailer] ✅ Email sent successfully via Brevo API');
       console.log(`[mailer] Brevo message ID:`, result.messageId || 'unknown');
       return result;
     } catch (error) {
-      console.error('[mailer] Brevo API email failed:', error?.message || error);
+      console.error('[mailer] ❌ Brevo API email failed:', error?.message || error);
       throw error;
     }
   }
 
-  // Priority 2: Check if Resend API key is available
-  const resendApiKey = process.env.RESEND_API_KEY?.trim();
+  // Priority 2: DISABLED - Resend removed
+  const resendApiKey = null; // FORCED DISABLED
+  // const resendApiKey = process.env.RESEND_API_KEY?.trim();
+  
+  console.log('[mailer] ⚠️ Resend is DISABLED - Brevo should have been used');
   
   if (resendApiKey) {
     console.log('[mailer] Using Resend API');
