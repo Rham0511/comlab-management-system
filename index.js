@@ -127,7 +127,20 @@ if (!smtpStatus.isConfigured) {
 
 export default app;
 
-if (!process.env.ELECTRON) {
+// For Vercel serverless deployment
+if (process.env.VERCEL) {
+  // Initialize database connection for serverless
+  (async () => {
+    try {
+      await sequelize.authenticate();
+      console.log("✅ Database connected (Vercel serverless)");
+    } catch (err) {
+      console.error("❌ Database connection failed:", err);
+    }
+  })();
+}
+
+if (!process.env.ELECTRON && !process.env.VERCEL) {
   const initializeDatabase = async () => {
     const maxRetries = 3;
     let lastError;
