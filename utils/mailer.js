@@ -41,7 +41,10 @@ const getTransport = () => {
     host,
     port,
     secure: port === 465,
-    auth: { user, pass }
+    auth: { user, pass },
+    family: 4, // Force IPv4
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 5000
   });
 };
 
