@@ -127,10 +127,11 @@ export const loginUser = async (req, res) => {
   const normalizedRole = normalizeUserRole(user.role);
 
   // Block unverified accounts
-  if (!user.email_verified) {
-    req.flash('error_msg', 'Please verify your email address before logging in.');
-    return res.redirect('/login');
-  }
+  // TEMPORARILY DISABLED for production deployment - enable later when email works
+  // if (!user.email_verified) {
+  //   req.flash('error_msg', 'Please verify your email address before logging in.');
+  //   return res.redirect('/login');
+  // }
 
   req.session.userId   = user.id;
   req.session.userRole = normalizedRole;
@@ -216,7 +217,7 @@ export const registerUser = async (req, res) => {
       section: section?.trim() || null,
       campus: normalizedCampus,
       last_login_at: null,
-      email_verified: false,
+      email_verified: true, // TEMPORARILY set to true - change to false when email works
       otp_code: otp,
       otp_expires_at: otpExpiresAt,
       otp_purpose: 'registration'
@@ -233,6 +234,9 @@ export const registerUser = async (req, res) => {
 
   console.log(`[auth] OTP generated for registration: ${email}`);
 
+  // TEMPORARILY DISABLED: Skip OTP email and auto-verify users
+  // Enable this when email service is properly configured
+  /*
   try {
     await sendOtpMail({ to: email, name, otp, purpose: 'registration' });
     console.log('[auth] OTP email sent successfully.');
@@ -248,6 +252,11 @@ export const registerUser = async (req, res) => {
   req.session.otpEmail   = email;
   req.session.otpPurpose = 'registration';
   return res.redirect('/verify-otp');
+  */
+  
+  // TEMPORARY: Auto-verify and allow immediate login
+  req.flash('success_msg', 'Registration successful! You can now log in.');
+  return res.redirect('/login');
 };
 
 // ─── OTP Verification (registration & password reset) ────────────────────────
