@@ -17,6 +17,7 @@
     "create:controller": "node create.js controller"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^6.0.3",
     "bcrypt": "^5.1.0",
     "connect-flash": "^0.1.1",
     "dotenv": "^17.4.2",

@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { Resend } from 'resend';
+import * as brevo from '@getbrevo/brevo';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -64,7 +65,37 @@ export const sendMail = async ({ to, subject, html, text }) => {
   console.log('[mailer] Email attempting to send...');
   console.log(`[mailer] Recipient: ${to}`);
 
-  // Check if Resend API key is available (preferred)
+  // Priority 1: Check Brevo API key
+  const brevoApiKey = process.env.BREVO_API_KEY?.trim();
+  
+  if (brevoApiKey) {
+    console.log('[mailer] Using Brevo API');
+    const apiInstance = new brevo.TransactionalEmailsApi();
+    apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, brevoApiKey);
+    
+    const from = envFallback(['MAIL_FROM', 'SMTP_USER']) || 'noreply@example.com';
+    const fromName = envFallback(['MAIL_FROM_NAME']) || 'ComLab';
+    
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.sender = { name: fromName, email: from };
+    sendSmtpEmail.to = [{ email: to }];
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = html;
+    if (text) sendSmtpEmail.textContent = text;
+    
+    try {
+      const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
+      console.log('[mailer] Email sent successfully via Brevo API');
+      console.log(`[mailer] Brevo result:`, JSON.stringify(result));
+      return result;
+    } catch (error) {
+      console.error('[mailer] Brevo API email failed:', error?.message || error);
+      console.error('[mailer] Brevo error details:', JSON.stringify(error));
+      throw error;
+    }
+  }
+
+  // Priority 2: Check if Resend API key is available
   const resendApiKey = process.env.RESEND_API_KEY?.trim();
   
   if (resendApiKey) {
@@ -99,8 +130,8 @@ export const sendMail = async ({ to, subject, html, text }) => {
     }
   }
 
-  // Fallback to SMTP if no Resend API key
-  console.log('[mailer] Using SMTP (no RESEND_API_KEY found)');
+  // Fallback to SMTP if no API keys
+  console.log('[mailer] Using SMTP (no BREVO_API_KEY or RESEND_API_KEY found)');
   const config = getTransportConfig();
   console.log(`[mailer] SMTP config resolved: host=${config.host || 'missing'}, port=${config.port}, user=${maskValue(config.user)}, pass=${config.pass ? '***' : 'missing'}`);
 
